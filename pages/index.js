@@ -48,12 +48,16 @@ const HomePage = (props) => {
 //? Only to be used in pages/files
 //? Name should be getStaticProps
 //? It generate props for the page, async behaviour
+//! StaticProps will always be outdated data
 export function getStaticProps() {
   // fetch Data from an API
   return {
     props: {
       meetups: DUMMY_MEETUPS,
     },
+    //? Revalidate will regenerate the page after every 10 seconds
+    //? Gets new data after every given value [10]
+    revalidate: 1,
   };
 }
 
