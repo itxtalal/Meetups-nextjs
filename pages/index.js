@@ -29,19 +29,32 @@ const DUMMY_MEETUPS = [
   },
 ];
 
-const HomePage = () => {
-  const [loadedMeetups, setLoadedMeetups] = useState([]);
+const HomePage = (props) => {
+  //   const [loadedMeetups, setLoadedMeetups] = useState([]);
 
-  useEffect(() => {
-    // send a fetch request and load data
-    // !! Problem
-    // !! Doing this will first create HTML documnet with empty dataset in the first execution useState is empty array
-    // !! When the data is loaded in second execution, the data is updated in State, but the HTML document still has no data in it.
-    // !! HTML Doc does not contain our data in it. Not SEO friendly.
-    setLoadedMeetups(DUMMY_MEETUPS);
-  }, []);
+  //   useEffect(() => {
+  //     // send a fetch request and load data
+  //     // !! Problem
+  //     // !! Doing this will first create HTML documnet with empty dataset in the first execution useState is empty array
+  //     // !! When the data is loaded in second execution, the data is updated in State, but the HTML document still has no data in it.
+  //     // !! HTML Doc does not contain our data in it. Not SEO friendly.
+  //     setLoadedMeetups(DUMMY_MEETUPS);
+  //   }, []);
 
-  return <MeetupList meetups={loadedMeetups} />;
+  return <MeetupList meetups={props.meetups} />;
 };
+
+//? A special function provided by NEXTJS to generate static pages when we need data to load
+//? Only to be used in pages/files
+//? Name should be getStaticProps
+//? It generate props for the page, async behaviour
+export function getStaticProps() {
+  // fetch Data from an API
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+  };
+}
 
 export default HomePage;
