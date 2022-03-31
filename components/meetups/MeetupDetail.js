@@ -10,4 +10,5 @@ const MeetupDetail = (props) => {
     </section>
   );
 };
+
 export default MeetupDetail;
