@@ -1,36 +1,9 @@
 // domain.com
 // import { useState, useEffect } from "react";
-
+import Head from "next/head";
 import { MongoClient } from "mongodb";
 
 import MeetupList from "../components/meetups/MeetupList";
-
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "First Meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Cityoflondontowerbridge.jpg",
-    address: "London",
-    description: "This is a first meetup in London",
-  },
-  {
-    id: "m2",
-    title: "Second Meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Cityoflondontowerbridge.jpg",
-    address: "London",
-    description: "This is a second meetup in London",
-  },
-  {
-    id: "m3",
-    title: "Third Meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Cityoflondontowerbridge.jpg",
-    address: "London",
-    description: "This is a third meetup in London",
-  },
-];
 
 const HomePage = (props) => {
   //   const [loadedMeetups, setLoadedMeetups] = useState([]);
@@ -44,7 +17,18 @@ const HomePage = (props) => {
   //     setLoadedMeetups(DUMMY_MEETUPS);
   //   }, []);
 
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <>
+      <Head>
+        <title>Meetups | NEXTJS</title>
+        <meta
+          name="description"
+          content="Browse a list of highly active meetups for NEXTJS"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />
+    </>
+  );
 };
 
 // // ? A special function by NEXTJS, to generate props on server side before deployment
