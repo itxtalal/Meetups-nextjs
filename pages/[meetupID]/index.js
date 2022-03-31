@@ -39,7 +39,11 @@ export async function getStaticPaths() {
   return {
     // false - All supported paths are defined by us
     // true - dynamically generate params for any path not written by us
-    fallback: false,
+    // 'blocking' or true means that there might be more valid paths, pages
+    // not returns a 404 page
+    // true will return an empty page until the page is generated
+    // blocking will load the page until the page is generated
+    fallback: "blocking",
     paths: meetups.map((meetup) => ({
       params: {
         meetupID: meetup._id.toString(),
