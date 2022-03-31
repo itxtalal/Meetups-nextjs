@@ -1,5 +1,8 @@
 // domain.com
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+
+import { MongoClient } from "mongodb";
+
 import MeetupList from "../components/meetups/MeetupList";
 
 const DUMMY_MEETUPS = [
@@ -72,10 +75,30 @@ const HomePage = (props) => {
 //! StaticProps will always be outdated data
 //* Page is faster by using this, it is cached and reused instead of regeneration
 export async function getStaticProps() {
+  const pass = process.env.PASSWORD;
   // fetch Data from an API
+
+  const client = await MongoClient.connect(
+    `mongodb+srv://admin:${pass}@cluster0.ey5q6.mongodb.net/meetups?retryWrites=true&w=majority`
+  );
+
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
   return {
     props: {
-      meetups: DUMMY_MEETUPS,
+      meetups: meetups.map((meetup) => ({
+        title: meetup.title,
+        image: meetup.image,
+        description: meetup.description,
+        // Mongo makes an _id object which is not a string, but we use id as string, so converting it to string, therefore using map
+        id: meetup._id.toString(),
+      })),
     },
     //? Revalidate will regenerate the page after every 10 seconds
     //? Gets new data after every given value [10]
